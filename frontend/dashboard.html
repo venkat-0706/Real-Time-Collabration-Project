@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project-K</title>
+    <meta name="description" content="Real-time Collaboration Platform">
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1 class="logo">Project-K</h1>
+            </div>
+            
+            <div class="header-right">
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input type="text" placeholder="Search documents..." class="search-input">
+                </div>
+                
+                <!-- Notifications -->
+                <button class="notification-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                    </svg>
+                </button>
+                
+                <!-- User Dropdown -->
+                <div class="user-dropdown">
+                    <button class="user-btn" onclick="toggleUserDropdown()">
+                        <div class="user-avatar">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <span class="user-name" id="user-info"></span>
+                    </button>
+                    
+                    <div class="dropdown-menu" id="userDropdown">
+                        <button class="dropdown-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                            Profile Settings
+                        </button>
+                        <hr class="dropdown-divider">
+                        <button class="dropdown-item logout">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16,17 21,12 16,7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <button class="sidebar-toggle" onclick="toggleSidebar()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            
+            <div class="sidebar-content">
+                <!-- Create New Section -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Create New</h3>
+                    <div class="sidebar-buttons">
+                        <button class="sidebar-btn document-btn">
+                            <div class="btn-icon blue">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14,2 14,8 20,8"></polyline>
+                                </svg>
+                            </div>
+                            <span>New Document</span>
+                        </button>
+                        
+                        <button class="sidebar-btn whiteboard-btn">
+                            <div class="btn-icon green">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                                    <path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                                    <path d="m2 2 7.586 7.586"></path>
+                                    <circle cx="11" cy="11" r="2"></circle>
+                                </svg>
+                            </div>
+                            <span>New Whiteboard</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Join Section -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Join Collaboration</h3>
+                    <button class="sidebar-btn join-btn" onclick="openJoinCollabModal()">
+                        <div class="btn-icon purple">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                            </svg>
+                        </div>
+                        <span>Join with Access Code</span>
+                    </button>
+                </div>
+                
+                <!-- Navigation -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Navigation</h3>
+                    <div class="sidebar-buttons">
+                        <button class="sidebar-btn nav-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12,6 12,12 16,14"></polyline>
+                            </svg>
+                            <span>Recent Works</span>
+                        </button>
+                        
+                        <button class="sidebar-btn nav-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            <span>My Documents</span>
+                        </button>
+                        
+                        <button class="sidebar-btn nav-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span>Shared with Me</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <h2 class="section-title">Quick Actions</h2>
+                <div class="action-cards">
+                    <button class="action-card blue-gradient" onclick="openModal()">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14,2 14,8 20,8"></polyline>
+                        </svg>
+                        <h3>Create Document</h3>
+                        <p>Start a new collaborative document</p>
+                    </button>
+                    
+                    <button class="action-card green-gradient" onclick="openModal1()">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                            <path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                            <path d="m2 2 7.586 7.586"></path>
+                            <circle cx="11" cy="11" r="2"></circle>
+                        </svg>
+                        <h3>Create Whiteboard</h3>
+                        <p>Design and brainstorm together</p>
+                    </button>
+                    
+                    <button class="action-card purple-gradient">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <h3>Join Session</h3>
+                        <p>Join an existing collaboration</p>
+                    </button>
+                </div>
+            </section>
+            
+
+<!-- Create Document Modal -->
+<div id="modal-overlay" class="modal-overlay" onclick="closeModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>Create New Document</h2>
+                <button class="close-btn" onclick="closeModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="create-form" onsubmit="createDocument(event)">
+                    <div class="form-group">
+                        <label for="document-title">Document Title</label>
+                        <input 
+                            type="text" 
+                            id="docTitle" 
+                            name="docTitle" 
+                            placeholder="Enter document title..." 
+                            required
+                            autocomplete="off"
+                        >
+                        <div class="error-message" id="error-message"></div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+
+<!-- Create Document Modal -->
+<div id="modal-overlay1" class="modal-overlay" onclick="closeModal1()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>Create New Whiteboard</h2>
+                <button class="close-btn" onclick="closeModal1()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="create-form" onsubmit="createDocument(event)">
+                    <div class="form-group">
+                        <label for="document-title">WhiteBoard Title</label>
+                        <input 
+                            type="text" 
+                            id="document-title" 
+                            name="document-title" 
+                            placeholder="Enter WhiteBoard title..." 
+                            required
+                            autocomplete="off"
+                        >
+                        <div class="error-message" id="error-message"></div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal1()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+
+
+            
+            <!-- Recent Works -->
+            <section class="recent-works">
+                <div class="section-header">
+                    <h2 class="section-title">Recent Works</h2>
+                    <button class="view-all-btn">View All</button>
+                </div>
+                
+                <div id="documentsContainer" class="grid gap-4 p-4" >
+                    
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Join Code Modal -->
+    <div class="join-modal-overlay" id="joinCollabModal">
+    <div class="join-modal">
+        <h3 class="join-modal-title">Join Collaboration</h3>
+        <p class="modal-description">Enter the access code to join a document or whiteboard</p>
+        <input type="text" id="accessCodeInput" placeholder="Enter access code..." class="join-modal-input">
+            <div class="join-modal-actions">
+                <button class="join-btn-primary" onclick="submitJoinCollab()">Join</button>
+                <button class="join-btn-secondary" onclick="closeJoinCollabModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

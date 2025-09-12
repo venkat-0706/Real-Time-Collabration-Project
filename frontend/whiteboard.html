@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Collaborative Whiteboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header with editing tools -->
+    <header class="toolbar">
+        <div class="toolbar-section">
+            <h1>Enhanced Whiteboard</h1>
+        </div>
+        
+        <div class="toolbar-section tools">
+            <!-- Drawing Tools -->
+            <div class="tool-group">
+                <button class="tool-btn active" data-tool="pen" title="Pen">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                        <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                    </svg>
+                </button>
+                <button class="tool-btn" data-tool="marker" title="Marker">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 9l-6 6v4h4l6-6m0 0l6-6-4-4-6 6z"></path>
+                    </svg>
+                </button>
+                <button class="tool-btn" data-tool="brush" title="Brush">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9.06 11.9l8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"></path>
+                        <path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"></path>
+                    </svg>
+                </button>
+                <button class="tool-btn" data-tool="eraser" title="Eraser">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 20H7l-7-7 6-6 7 7 7-7v13z"></path>
+                        <path d="M7 20l7-7"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Shape Tools -->
+            <div class="tool-group">
+                <button class="tool-btn" data-tool="rectangle" title="Rectangle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    </svg>
+                </button>
+                <button class="tool-btn" data-tool="circle" title="Circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                    </svg>
+                </button>
+                <button class="tool-btn" data-tool="line" title="Line">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                    </svg>
+                </button>
+                <button class="tool-btn" data-tool="arrow" title="Arrow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                        <polyline points="17,7 17,13 11,7"></polyline>
+                    </svg>
+                </button>
+                <button class="tool-btn" data-tool="text" title="Text">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="4,7 4,4 20,4 20,7"></polyline>
+                        <line x1="9" y1="20" x2="15" y2="20"></line>
+                        <line x1="12" y1="4" x2="12" y2="20"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Colors -->
+            <div class="tool-group">
+                <div class="color-picker">
+                    <div class="color-swatch active" data-color="#000000" style="background-color: #000000;"></div>
+                    <div class="color-swatch" data-color="#FF0000" style="background-color: #FF0000;"></div>
+                    <div class="color-swatch" data-color="#00FF00" style="background-color: #00FF00;"></div>
+                    <div class="color-swatch" data-color="#0000FF" style="background-color: #0000FF;"></div>
+                    <div class="color-swatch" data-color="#FFFF00" style="background-color: #FFFF00;"></div>
+                    <div class="color-swatch" data-color="#FF00FF" style="background-color: #FF00FF;"></div>
+                    <div class="color-swatch" data-color="#00FFFF" style="background-color: #00FFFF;"></div>
+                    <div class="color-swatch" data-color="#FFA500" style="background-color: #FFA500;"></div>
+                </div>
+                <input type="color" id="customColor" value="#000000">
+            </div>
+
+            <!-- Brush Size -->
+            <div class="tool-group">
+                <label for="brushSize">Size:</label>
+                <input type="range" id="brushSize" min="1" max="20" value="2">
+                <span id="brushSizeValue">2px</span>
+            </div>
+        </div>
+
+        <div class="toolbar-section actions">
+            <button class="action-btn" id="undoBtn" title="Undo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 7v6h6"></path>
+                    <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path>
+                </svg>
+            </button>
+            <button class="action-btn" id="redoBtn" title="Redo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 7v6h-6"></path>
+                    <path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"></path>
+                </svg>
+            </button>
+            <button class="action-btn" id="clearBtn" title="Clear Canvas">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3,6 5,6 21,6"></polyline>
+                    <path d="M19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1,2-2h4a2,2 0 0,1,2,2v2"></path>
+                </svg>
+            </button>
+            <button class="action-btn" id="saveBtn" title="Save Canvas">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                    <polyline points="17,21 17,13 7,13 7,21"></polyline>
+                    <polyline points="7,3 7,8 15,8"></polyline>
+                </svg>
+            </button>
+            <button class="action-btn" id="inviteBtn" title="Invite Members">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <line x1="19" y1="8" x2="19" y2="14"></line>
+                    <line x1="22" y1="11" x2="16" y2="11"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content with Sidebars -->
+    <main class="main-content">
+        <!-- Left Sidebar Toggle -->
+        <button class="sidebar-toggle left-toggle" id="leftToggle" title="Toggle Members">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+        </button>
+
+        <!-- Members Sidebar -->
+        <aside class="sidebar members-sidebar" id="membersSidebar">
+            <div class="sidebar-header">
+                <h3>Members</h3>
+                <button class="close-sidebar" id="closeMembersBtn">&times;</button>
+            </div>
+            <div class="sidebar-content">
+                <div class="members-list" id="membersList">
+                    <div class="member online">
+                        <div class="member-avatar">You</div>
+                        <span class="member-name">You</span>
+                        <span class="member-status online"></span>
+                    </div>
+                </div>
+                <button class="add-member-btn" id="addMemberBtn">+ Add Member</button>
+            </div>
+        </aside>
+
+        <!-- Canvas Area -->
+        <div class="canvas-container">
+            <canvas id="whiteboard" width="1400" height="800"></canvas>
+            <!-- Text Input for Text Tool -->
+            <input type="text" id="textInput" class="text-input" placeholder="Enter text..." style="display: none;">
+        </div>
+
+        <!-- Right Sidebar Toggle -->
+        <button class="sidebar-toggle right-toggle" id="rightToggle" title="Toggle Chat">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+        </button>
+
+        <!-- Chat Sidebar -->
+        <aside class="sidebar chat-sidebar" id="chatSidebar">
+            <div class="sidebar-header">
+                <h3>Chat</h3>
+                <button class="close-sidebar" id="closeChatBtn">&times;</button>
+            </div>
+            <div class="sidebar-content">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be added here dynamically -->
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chatInput" placeholder="Type a message..." maxlength="500">
+                    <button id="sendMessage">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Invite Modal -->
+    <div class="modal" id="inviteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Invite Collaborators</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="email" id="inviteEmail" placeholder="Enter email address">
+                <button id="sendInvite">Send Invitation</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

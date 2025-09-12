@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Editor - Collaborative Workspace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <div class="logo">
+                <i class="fas fa-file-alt"></i> DocEditor
+            </div>
+            <input type="text" class="document-title" value="Untitled Document" id="documentTitle">
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <button class="save-btn" onclick="saveDocument()">
+                <i class="fas fa-save"></i> Save
+            </button>
+            <button class="download-btn" onclick="downloadDocument()">
+                <i class="fas fa-download"></i> Download
+            </button>
+            <button class="share-btn" onclick="openShareModal()">
+                <i class="fas fa-share"></i> Share
+            </button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Left Sidebar - Members -->
+        <div class="sidebar-left" id="leftSidebar">
+            <div class="members-header">
+                <h3><i class="fas fa-users"></i> Members</h3>
+                <button class="add-member-btn" onclick="openAddMemberModal()">
+                    <i class="fas fa-plus"></i> Add
+                </button>
+            </div>
+            <div class="members-list" id="membersList">
+                <!-- Members will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Main Editor -->
+        <div class="editor-container" id="editor-container">
+            <div class="toolbar">
+                <button class="toggle-sidebar" onclick="toggleLeftSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" onclick="document.execCommand('undo')">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                    <button class="toolbar-btn" onclick="document.execCommand('redo')">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
+
+                <!-- Page Layout Controls -->
+                <div class="toolbar-group">
+                    <select class="toolbar-select" id="marginSelect" onchange="changeMargins(this.value)">
+                        <option value="normal">Normal Margins</option>
+                        <option value="narrow">Narrow Margins</option>
+                    </select>
+                    <button class="toolbar-btn" onclick="addNewPage()" title="Add Page">
+                        <i class="fas fa-plus-square"></i>
+                    </button>
+                </div>
+
+                <div class="toolbar-group">
+                    <select class="toolbar-select" onchange="document.execCommand('fontName', false, this.value)">
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Calibri">Calibri</option>
+                    </select>
+                    <select class="toolbar-select" onchange="document.execCommand('fontSize', false, this.value)">
+                        <option value="1">8pt</option>
+                        <option value="2">10pt</option>
+                        <option value="3" selected>12pt</option>
+                        <option value="4">14pt</option>
+                        <option value="5">18pt</option>
+                        <option value="6">24pt</option>
+                        <option value="7">36pt</option>
+                    </select>
+                </div>
+
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" onclick="formatText('bold')" id="boldBtn">
+                        <i class="fas fa-bold"></i>
+                    </button>
+                    <button class="toolbar-btn" onclick="formatText('italic')" id="italicBtn">
+                        <i class="fas fa-italic"></i>
+                    </button>
+                    <button class="toolbar-btn" onclick="formatText('underline')" id="underlineBtn">
+                        <i class="fas fa-underline"></i>
+                    </button>
+                    <button class="toolbar-btn" onclick="formatText('strikeThrough')" id="strikeBtn">
+                        <i class="fas fa-strikethrough"></i>
+                    </button>
+                </div>
+
+                <div class="toolbar-group">
+                    <input type="color" class="color-picker" onchange="document.execCommand('foreColor', false, this.value)" title="Text Color">
+                    <input type="color" class="color-picker" onchange="document.execCommand('backColor', false, this.value)" title="Background Color">
+                </div>
+
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" onclick="document.execCommand('justifyLeft')">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                    <button class="toolbar-btn" onclick="document.execCommand('justifyCenter')">
+                        <i class="fas fa-align-center"></i>
+                    </button>
+                    <button class="toolbar-btn" onclick="document.execCommand('justifyRight')">
+                        <i class="fas fa-align-right"></i>
+                    </button>
+                    <button class="toolbar-btn" onclick="document.execCommand('justifyFull')">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+                </div>
+
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" onclick="document.execCommand('insertUnorderedList')">
+                        <i class="fas fa-list-ul"></i>
+                    </button>
+                    <button class="toolbar-btn" onclick="document.execCommand('insertOrderedList')">
+                        <i class="fas fa-list-ol"></i>
+                    </button>
+                    <button class="toolbar-btn" onclick="document.execCommand('indent')">
+                        <i class="fas fa-indent"></i>
+                    </button>
+                    <button class="toolbar-btn" onclick="document.execCommand('outdent')">
+                        <i class="fas fa-outdent"></i>
+                    </button>
+                </div>
+
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" onclick="insertTable()">
+                        <i class="fas fa-table"></i>
+                    </button>
+                    <button class="toolbar-btn" onclick="insertLink()">
+                        <i class="fas fa-link"></i>
+                    </button>
+                    <button class="toolbar-btn" onclick="document.getElementById('imageInput').click()">
+                        <i class="fas fa-image"></i>
+                    </button>
+                    <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="insertImage(this)">
+                </div>
+
+                <button class="toggle-sidebar" onclick="toggleRightSidebar()" style="margin-left: auto;">
+                    <i class="fas fa-comments"></i>
+                </button>
+            </div>
+
+            <div class="editor-wrapper" contenteditable="true">
+                <div id="documentPages">
+                    <!-- Pages will be added dynamically -->
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar - Chat -->
+        <div class="sidebar-right" id="rightSidebar">
+            <div class="chat-header">
+                <h3><i class="fas fa-comments"></i> Team Chat</h3>
+                <div class="chat-status">
+                    <i class="fas fa-circle" style="color: #34a853; font-size: 8px;"></i>
+                    3 members online
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <!-- Chat messages will be populated by JavaScript -->
+            </div>
+
+            <div class="chat-input">
+                <textarea class="chat-input-field" id="chatInput" placeholder="Type a message..." rows="2"></textarea>
+                <button class="send-btn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i> Send
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Member Modal -->
+    <div class="modal" id="addMemberModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Member</h3>
+                <button class="close-btn" onclick="closeModal('addMemberModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" id="memberEmail" placeholder="Enter email address">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Permission Level</label>
+                <select class="form-select" id="memberPermission">
+                    <option value="read">Can View</option>
+                    <option value="edit">Can Edit</option>
+                </select>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-secondary" onclick="closeModal('addMemberModal')">Cancel</button>
+                <button class="btn-primary" onclick="addMember()">Add Member</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="modal" id="shareModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Share Document</h3>
+                <button class="close-btn" onclick="closeModal('shareModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Share Link</label>
+                <input type="text" class="form-input" value="https://doceditor.com/doc/abc123" readonly onclick="this.select()">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Default Permission</label>
+                <select class="form-select">
+                    <option value="read">Anyone with link can view</option>
+                    <option value="edit">Anyone with link can edit</option>
+                    <option value="private">Only invited members</option>
+                </select>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-secondary" onclick="closeModal('shareModal')">Close</button>
+                <button class="btn-primary" onclick="copyShareLink()">Copy Link</button>
+            </div>
+        </div>
+    </div>
+    <script src="editor.js"></script>
+    <script src="https://unpkg.com/html-docx-js/dist/html-docx.js"></script>
+</body>
+</html>
