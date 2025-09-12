@@ -1,0 +1,25 @@
+{
+  "name": "realtime-collab-backend",
+  "version": "1.0.0",
+  "description": "Backend for a real-time collaboration platform using Express, AWS SDK, and S3/DynamoDB",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Siddu",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.567.0",
+    "@aws-sdk/client-s3": "^3.567.0",
+    "@aws-sdk/s3-request-presigner": "^3.567.0",
+    "@aws-sdk/util-dynamodb": "^3.567.0",
+    "axios": "^1.10.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "docx": "^8.5.0",
+    "express": "^4.18.2",
+    "jsdom": "^26.1.0",
+    "mammoth": "^1.6.0",
+    "uuid": "^9.0.1"
+  }
+}
